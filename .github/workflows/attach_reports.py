@@ -4,7 +4,7 @@ from github import Github
 
 def attach_reports(token, pr_number, comment):
     g = Github(token)
-    repo = g.get_repo("msakare/databricks")  # Replace with your repository info
+    repo = g.get_repo("msakare/sage-databricks")  # Replace with your repository info
 
     pull_request = repo.get_pull(pr_number)
     pull_request.create_issue_comment(comment)
