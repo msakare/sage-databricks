@@ -16,9 +16,10 @@ if __name__ == "__main__":
 
     pat_token = sys.argv[1]
     comment = sys.argv[2]
-    pr_number = os.getenv("GITHUB_REF").split("/")[-1]  # Fetch the pull request number from GITHUB_REF
+    pr_number = sys.argv[3]
 
     attach_reports(pat_token, pr_number, comment)
+
 
 
 # import os
