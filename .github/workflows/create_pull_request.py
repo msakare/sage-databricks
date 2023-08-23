@@ -5,8 +5,8 @@ def create_pull_request(token):
     g = Github(token)
     repo = g.get_repo("msakare/databricks")
 
-    base = "Release"  # The base branch you want to create the pull request against
-    head = "feature"  # The source branch of the pull request
+    base = "feature"  # The base branch you want to create the pull request against
+    head = "main"  # The source branch of the pull request
     title = "Automated PR: SecurityScan"
     body = "This pull request is automatically generated to trigger security scanning."
 
