@@ -72,18 +72,18 @@ jobs:
           name: junit-test-report
           path: reports
 
-      - name: Attach reports
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # This token has access to the repo
-        run: |
-          python .github/workflows/attach_reports.py "$GITHUB_TOKEN" "Reports attached." ${{ github.event.pull_request.number }}
-
-      # - name: Attach Reports
-      #   run: |
-      #     python .github/workflows/attach_reports.py ${{ secrets.PAT_TOKEN }} "comment" 8
-
+      # - name: Attach reports
       #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # This token has access to the repo
+      #   run: |
+      #     python .github/workflows/attach_reports.py "$GITHUB_TOKEN" "Reports attached." ${{ github.event.pull_request.number }}
+
+      - name: Attach Reports
+        run: |
+          python .github/workflows/attach_reports.py ${{ secrets.PAT_TOKEN }} "Reports attached." 12
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
 
