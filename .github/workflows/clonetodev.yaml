@@ -1,4 +1,4 @@
-name: Clone to Dev
+name: Clone to dev_repo
 
 on:
   push:
@@ -13,22 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Git
+      - name: Clone release to dev_repo
         run: |
           git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-
-      - name: Create and checkout dev branch
-        run: |
-          git checkout -b dev_repo origin/dev_repo
-
-      - name: Merge changes from release to dev
-        run: |
-          git merge origin/release --no-edit
-
-      - name: Push changes to dev
-        run: |
+          git config user.email "actions@users.noreply.github.com"
+          git checkout -b dev_repo release
           git push origin dev_repo
+
 
 
     # steps:
