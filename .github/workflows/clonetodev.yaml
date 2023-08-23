@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Push main branch into production
+      - name: Push main branch into release
         uses: codingforentrepreneurs/action-branch-to-branch@main
         with:
           dest_branch: 'dev_repo'
