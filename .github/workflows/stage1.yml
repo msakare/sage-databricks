@@ -75,7 +75,7 @@ jobs:
 
       - name: Attach Reports
         run: |
-          python .github/workflows/attach_reports.py ${{ secrets.PAT_TOKEN }} "comment"
+          python .github/workflows/attach_reports.py ${{ secrets.PAT_TOKEN }} "comment" 123
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
