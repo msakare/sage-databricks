@@ -3,7 +3,7 @@ from github import Github
 
 def create_pull_request(token):
     g = Github(token)
-    repo = g.get_repo("msakare/databricks")
+    repo = g.get_repo("msakare/sage-databricks")
 
     base = "feature"  # The base branch you want to create the pull request against
     head = "main"  # The source branch of the pull request
@@ -19,7 +19,7 @@ def create_pull_request(token):
     )
 
     # Add reviewers to the pull request (GitHub usernames or team names)
-    reviewers = ["pankajadas", "yashuonfire"]
+    # reviewers = ["pankajadas", "yashuonfire"]
     pull_request.create_review_request(reviewers=reviewers)
 
 if __name__ == "__main__":
