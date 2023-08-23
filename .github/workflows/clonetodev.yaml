@@ -1,4 +1,4 @@
-name: Clone to dev_repo
+name: Clone and Push to dev_repo
 
 on:
   push:
@@ -6,21 +6,28 @@ on:
       - release
 
 jobs:
-  clone_to_dev:
+  clone_and_push:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout release branch
         uses: actions/checkout@v2
+        with:
+          ref: release
+          fetch-depth: 0
 
-      - name: Clone release to dev_repo
+      - name: Set up Git
         run: |
           git config user.name "GitHub Actions"
-          git config user.email "actions@users.noreply.github.com"
-          git checkout -b dev_repo release
+          git config user.email "actions@github.com"
+          
+      - name: Clone and push to dev_repo
+        run: |
+          git branch -D dev_repo || true
+          git checkout -b dev_repo
           git push origin dev_repo
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+
 
 
 
