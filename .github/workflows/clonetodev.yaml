@@ -20,7 +20,7 @@ jobs:
 
       - name: Create and checkout dev branch
         run: |
-          git checkout -b dev origin/dev_repo
+          git checkout -b dev_repo origin/dev_repo
 
       - name: Merge changes from release to dev
         run: |
