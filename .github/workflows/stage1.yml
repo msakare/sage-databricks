@@ -71,6 +71,7 @@ jobs:
         with:
           files: |
             junit/test-report.xml
+            junit/security-scan-report.xml
 
 
       # - name: Checkout repository
