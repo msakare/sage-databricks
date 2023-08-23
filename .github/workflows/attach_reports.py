@@ -1,25 +1,23 @@
 import sys
-import os
 from github import Github
 
-def attach_reports(token, comment):
+def attach_reports(token, comment, pr_number):
     g = Github(token)
     repo = g.get_repo("msakare/sage-databricks")  # Replace with your repository info
-
-    pr_number = os.getenv("GITHUB_REF").split("/")[-1]  # Fetch the pull request number from GITHUB_REF
 
     pull_request = repo.get_pull(pr_number)
     pull_request.create_issue_comment(comment)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: python attach_reports.py <PAT_TOKEN> <comment>")
+    if len(sys.argv) != 4:
+        print("Usage: python attach_reports.py <PAT_TOKEN> <comment> <pr_number>")
         sys.exit(1)
 
     pat_token = sys.argv[1]
     comment = sys.argv[2]
+    pr_number = sys.argv[3]
 
-    attach_reports(pat_token, comment)
+    attach_reports(pat_token, comment, pr_number)
 
 
 
