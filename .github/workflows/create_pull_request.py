@@ -19,7 +19,7 @@ def create_pull_request(token):
     )
 
     # Add reviewers to the pull request (GitHub usernames or team names)
-    # reviewers = ["pankajadas", "yashuonfire"]
+    reviewers = ["pankajadas"]
     pull_request.create_review_request(reviewers=reviewers)
 
 if __name__ == "__main__":
