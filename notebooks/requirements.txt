@@ -1,0 +1,6 @@
+PyGithub
+pytest
+bandit
+github
+Github
+
