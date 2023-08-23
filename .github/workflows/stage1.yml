@@ -78,12 +78,18 @@ jobs:
       #   run: |
       #     python .github/workflows/attach_reports.py "$GITHUB_TOKEN" "Reports attached." ${{ github.event.pull_request.number }}
 
-      - name: Attach Reports
-        run: |
-          python .github/workflows/attach_reports.py ${{ secrets.PAT_TOKEN }} "Reports attached." 12
+      # - name: Attach Reports
+      #   run: |
+      #     python .github/workflows/attach_reports.py ${{ secrets.PAT_TOKEN }} "Reports attached." 12
 
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            junit/test-report.xml
 
 
 
