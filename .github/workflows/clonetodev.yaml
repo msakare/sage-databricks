@@ -13,14 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Clone release to dev_repo
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@users.noreply.github.com"
-          git checkout -b dev_repo release
-          git push origin dev_repo
+      - name: Push from release to dev branch.
+        uses: Automattic/action-commit-to-branch@master
+        with:
+          dest_branch: 'dev_repo'
+          source_branch: 'release'
+          commit_message: 'Automated tests for main.'
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }} # Required
 
 
 
