@@ -13,11 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Push from release to dev branch.
-        uses: Automattic/action-commit-to-branch@master
+      - name: Push main branch into production
+        uses: codingforentrepreneurs/action-branch-to-branch@release
         with:
           dest_branch: 'dev_repo'
           source_branch: 'release'
-          commit_message: 'Automated tests for main.'
+          commit_message: 'Release production version'
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
