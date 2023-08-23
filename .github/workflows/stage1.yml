@@ -11,9 +11,9 @@ on:
       - synchronize
 
 
-# jobs:
-#   databricks_checks:
-#     runs-on: ubuntu-latest
+jobs:
+  databricks_checks:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
