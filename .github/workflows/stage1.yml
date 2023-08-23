@@ -72,8 +72,12 @@ jobs:
           name: junit-test-report
           path: reports
           
+
       - name: Attach Reports
-        run: python .github/workflows/attach_reports.py ${{ secrets.PAT_TOKEN }}
+        run: |
+          python .github/workflows/attach_reports.py "${{ secrets.PAT_TOKEN }}" "comment" ${{ github.event.pull_request.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
 
