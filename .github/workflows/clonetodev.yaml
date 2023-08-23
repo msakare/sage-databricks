@@ -21,5 +21,3 @@ jobs:
           commit_message: 'Automated tests for main.'
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }} 
-#test
-
