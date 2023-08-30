@@ -32,4 +32,4 @@ jobs:
   
       - name: Call Databricks API
         run: |
-          python apicall.py
+          python .github/workflows/apicall.py
