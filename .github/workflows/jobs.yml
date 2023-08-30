@@ -1,31 +1,35 @@
-name: Databricks CI/CD
+name: Databricks job
 
 on:
   push:
     branches:
       - dev_jobs
 
+
 jobs:
-  build:
+  databricks_checks:
     runs-on: ubuntu-latest
 
     env:
       SOURCE_ENV: dev
       TARGET_ENV: test
       DATABRICKS_API_TOKEN: 
-   steps:
-     - name: Checkout Repository
-       uses: actions/checkout@v2
 
-    - name: Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Install Dependencies
-      run: |
-        pip install requests
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
 
-    - name: Call Databricks API
-      run: |
-        python apicall.py
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install requests
+  
+      - name: Call Databricks API
+        run: |
+          python apicall.py
