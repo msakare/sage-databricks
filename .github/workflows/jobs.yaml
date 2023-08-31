@@ -9,8 +9,17 @@ on:
         required: true
         options:
         - Dev
+        boolean:
+          type: boolean
+          description: True or False
         - Test
+        boolean:
+          type: boolean
+          description: True or False
         - Prod
+        boolean:
+          type: boolean
+          description: True or False
       target_env:
         description: "Select target environment"
         required: true
