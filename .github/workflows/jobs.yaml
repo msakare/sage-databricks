@@ -4,14 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       source_env:
+        type: choice
         description: "Select source environment"
         required: true
-      boolean:
-        type: boolean
-        description: True or False
-      choice:
-        type: choice
-        description: Make a choice
         options:
         - Dev
         - Test
