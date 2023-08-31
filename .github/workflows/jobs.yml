@@ -1,12 +1,13 @@
 name: Databricks job
 
 on:
-  workflow_dispatch:
-    inputs:
+  
+    workflow_dispatch:
+      inputs:
       # env:
-      SOURCE_ENV: dev,test,prod
-      TARGET_ENV: test
-      DATABRICKS_API_TOKEN: 
+        SOURCE_ENV: dev,test,prod
+        TARGET_ENV: test
+        DATABRICKS_API_TOKEN: 
 
 
 jobs:
