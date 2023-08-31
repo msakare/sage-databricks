@@ -38,3 +38,12 @@ jobs:
       - name: Call Databricks API
         run: |
           python .github/workflows/apicall.py
+
+      - name: Enter Source Job ID
+        run: |
+          source_job_id=${{ secrets.SOURCE_JOB_ID }}
+          python .github/workflows/get_job_details.py $source_job_id
+
+      - name: Call Databricks API
+        run: |
+          python .github/workflows/apicall.py
