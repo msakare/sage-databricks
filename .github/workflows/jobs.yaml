@@ -19,7 +19,7 @@ jobs:
     env:
       SOURCE_ENV: ${{ github.event.inputs.source_env }}
       TARGET_ENV: ${{ github.event.inputs.target_env }}
-      DATABRICKS_API_TOKEN: "dapic100eda776087528cd6a82f7ca84914a"
+      DATABRICKS_API_TOKEN: ${{ secrets.DATABRICKS_API_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
