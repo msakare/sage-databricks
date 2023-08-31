@@ -7,6 +7,10 @@ on:
         description: "Select source environment"
         required: true
         options: ["Dev", "Test", "Prod"]
+      target_env:
+        description: "Select target environment"
+        required: true
+        options: ["Dev", "Test", "Prod"]
 
 jobs:
   databricks_migration:
@@ -14,7 +18,7 @@ jobs:
 
     env:
       SOURCE_ENV: ${{ github.event.inputs.source_env }}
-      TARGET_ENV: test
+      TARGET_ENV: ${{ github.event.inputs.target_env }}
       DATABRICKS_API_TOKEN: ${{ secrets.DATABRICKS_API_TOKEN }}  # Make sure to set this secret in your repository settings
 
     steps:
