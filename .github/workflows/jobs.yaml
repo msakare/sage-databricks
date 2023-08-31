@@ -7,9 +7,6 @@ on:
         type: choice
         description: "Select source environment"
         required: true
-      boolean:
-        type: boolean
-        description: True or False
         options:
         - Dev
         - Test
@@ -17,10 +14,11 @@ on:
       target_env:
         description: "Select target environment"
         required: true
+        type: choice
         options: ["Dev", "Test", "Prod"]
-      job_id:
-        description: "Enter Databricks job ID"
-        required: true
+      # job_id:
+      #   description: "Enter Databricks job ID"
+      #   required: true
 
 jobs:
   databricks_migration:
