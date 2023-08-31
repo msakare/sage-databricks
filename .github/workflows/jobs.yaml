@@ -11,6 +11,9 @@ on:
         description: "Select target environment"
         required: true
         options: ["Dev", "Test", "Prod"]
+      job_id:
+        description: "Enter Databricks job ID"
+        required: true
 
 jobs:
   databricks_migration:
@@ -19,6 +22,7 @@ jobs:
     env:
       SOURCE_ENV: ${{ github.event.inputs.source_env }}
       TARGET_ENV: ${{ github.event.inputs.target_env }}
+      JOB_ID: ${{ github.event.inputs.job_id }}
       DATABRICKS_API_TOKEN: ${{secrets.DATABRICKS_API_TOKEN}}
     steps:
       - name: Checkout code
@@ -39,11 +43,11 @@ jobs:
         run: |
           python .github/workflows/apicall.py
 
-      - name: Enter Source Job ID
-        run: |
-          source_job_id=${{ secrets.SOURCE_JOB_ID }}
-          python .github/workflows/get_job_details.py $source_job_id
+      # - name: Enter Source Job ID
+      #   run: |
+      #     source_job_id=${{ secrets.SOURCE_JOB_ID }}
+      #     python .github/workflows/get_job_details.py $source_job_id
 
-      - name: Call Databricks API
-        run: |
-          python .github/workflows/apicall.py
+      # - name: Call Databricks API
+      #   run: |
+      #     python .github/workflows/apicall.py
