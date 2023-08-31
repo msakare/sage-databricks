@@ -4,10 +4,10 @@ on:
   
     workflow_dispatch:
       inputs:
-      # env:
-        SOURCE_ENV: dev,test,prod
-        TARGET_ENV: test
-        DATABRICKS_API_TOKEN: 
+        source_env:
+          description: "select source"
+          required: true
+          default: "dev"
 
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+        
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
