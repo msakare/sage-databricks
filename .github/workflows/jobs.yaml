@@ -7,19 +7,13 @@ on:
         type: choice
         description: "Select source environment"
         required: true
+      boolean:
+        type: boolean
+        description: True or False
         options:
         - Dev
-        boolean:
-          type: boolean
-          description: True or False
         - Test
-        boolean:
-          type: boolean
-          description: True or False
         - Prod
-        boolean:
-          type: boolean
-          description: True or False
       target_env:
         description: "Select target environment"
         required: true
