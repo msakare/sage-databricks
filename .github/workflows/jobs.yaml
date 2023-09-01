@@ -100,9 +100,12 @@ jobs:
   
       - name: Call Databricks API and Publish Artifacts
         run: |
-           python .github/workflows/apicall.py > api_response.json
-        continue-on-error: true 
-        artifacts:
+          python .github/workflows/apicall.py > api_response.json
+ 
+
+      - name: Publish Response as Artifact
+        uses: actions/upload-artifact@v2
+        with:
           name: databricks-api-response
           path: api_response.json
 
