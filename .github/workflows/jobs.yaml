@@ -117,20 +117,12 @@ jobs:
           path: downloaded_api_response.json
 
 
-      - name: Fetch Job IDs and Details
-        run: |
+      - name: Fetch Job Details
+        run: python fetch_job_details.py
+        env:
+          DATABRICKS_API_TOKEN: ${{ secrets.DATABRICKS_API_TOKEN }}
+          JOB_ID: ${{ job_id }} 
 
-          with open('api_response.json', 'r') as file:
-          response_data = json.load(file)
-          job_ids = response_data['job_ids']
-
-          for job_id in job_ids:
-
-                # Create a temporary Python script file
-                with open('fetch_job_details.py', 'w') as script_file:
-                    script_file.write(python_script)
-                    python fetch_job_details.py
-                continue-on-error: true
         
         
       - name: Select Databricks Job ID
