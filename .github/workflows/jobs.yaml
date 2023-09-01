@@ -98,9 +98,53 @@ jobs:
           pip install -r requirements.txt
           pip install requests
   
-      - name: Call Databricks API
+      - name: Call Databricks API and Publish Artifacts
         run: |
-          python .github/workflows/apicall.py
+         python .github/workflows/apicall.py > api_response.json
+         artifacts:
+          name: databricks-api-response
+          path: api_response.json
+
+      - name: Download and Process API Response
+        uses: actions/download-artifact@v2
+        with:
+          name: databricks-api-response
+          path: api_response.json
+
+      - name: Fetch Job IDs and Details
+        run: |
+
+          with open('api_response.json', 'r') as file:
+          response_data = json.load(file)
+          job_ids = response_data['job_ids']
+
+    for job_id in job_ids:
+
+        python_script = f"""
+        import requests
+
+        databricks_api_token = ""
+
+        url = "https://sagerx-aws-devtest-comm.cloud.databricks.com/api/2.1/jobs/get?job_id={job_id}"
+
+        payload = {{}}
+        headers = {
+          'Authorization': f'Bearer dapic100eda776087528cd6a82f7ca84914a'
+        }
+
+        response = requests.request("GET", url, headers=headers, data=payload)
+
+        print(response.text)
+        """
+
+        # Create a temporary Python script file
+        with open('fetch_job_details.py', 'w') as script_file:
+            script_file.write(python_script)
+
+        # Execute the temporary script to fetch job details
+        python fetch_job_details.py
+  continue-on-error: true  # Continue with the workflow even if a job detail fetch fails
+
 
       - name: Select Databricks Job ID
         run: |
