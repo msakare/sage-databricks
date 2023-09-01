@@ -114,7 +114,13 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: databricks-api-response
-          path: downloaded_api_response.json
+          path: .
+
+      - name: Debug Current Directory
+        run: |
+          pwd
+
+
 
 
       # - name: Fetch Job Details
