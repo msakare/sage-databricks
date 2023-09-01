@@ -16,9 +16,7 @@ on:
         required: true
         type: choice
         options: ["Dev", "Test", "Prod"]
-      # job_id:
-      #   description: "Enter Databricks job ID"
-      #   required: true
+        
 
 jobs:
   databricks_migration:
@@ -48,31 +46,12 @@ jobs:
         run: |
           python .github/workflows/apicall.py
 
-  enter_job_id:
-    needs: databricks_migration
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
+      - name: Run Databricks Job Details
+        run: python .github/workflows/jobdetails.py
+        continue-on-error: true
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install requests
-  
-      - name: Enter Job ID
-        run: |
-          echo "Source environment: ${{ github.event.inputs.source_env }}"
-          echo "Target environment: ${{ github.event.inputs.target_env }}"
-          # Prompt the user to enter the Databricks job ID and store it in a variable.
-          read -p "Enter Databricks job ID: " JOB_ID
-          echo "Selected job ID: $JOB_ID"
+
+
 
       # - name: Enter Source Job ID
       #   run: |
