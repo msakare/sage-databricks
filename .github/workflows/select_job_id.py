@@ -20,7 +20,7 @@ import json
 
 # Read job IDs from the api_response.json artifact
 try:
-    with open('downloaded_api_response.json', 'r') as file:
+    with open('/sage-databricks/downloaded_api_response.json', 'r') as file:
         response_data = json.load(file)
         job_ids = response_data.get('job_ids', [])
 except FileNotFoundError:
