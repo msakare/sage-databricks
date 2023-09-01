@@ -1,4 +1,57 @@
-name: Databricks job migration
+# name: Databricks job migration
+
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       source_env:
+#         type: choice
+#         description: "Select source environment"
+#         required: true
+#         options:
+#         - Dev
+#         - Test
+#         - Prod
+#       target_env:
+#         description: "Select target environment"
+#         required: true
+#         type: choice
+#         options: ["Dev", "Test", "Prod"]
+        
+# jobs:
+#   databricks_migration:
+#     runs-on: ubuntu-latest
+
+#     env:
+#       SOURCE_ENV: ${{ github.event.inputs.source_env }}
+#       TARGET_ENV: ${{ github.event.inputs.target_env }}
+#       JOB_ID: ${{ github.event.inputs.job_id }}
+#       DATABRICKS_API_TOKEN: ${{secrets.DATABRICKS_API_TOKEN}}
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+        
+#       - name: Setup Python
+#         uses: actions/setup-python@v2
+#         with:
+#           python-version: 3.9
+
+#       - name: Install dependencies
+#         run: |
+#           python -m pip install --upgrade pip
+#           pip install -r requirements.txt
+#           pip install requests
+  
+#       - name: Call Databricks API
+#         run: |
+#           python .github/workflows/apicall.py
+
+      
+#       - name: Select Databricks Job ID
+#         run: |
+#           # Python script to prompt the user to select a job ID and list its details
+#           python .github/workflows/select_job_id.py
+
+name: Databricks Job Migration
 
 on:
   workflow_dispatch:
@@ -16,13 +69,9 @@ on:
         required: true
         type: choice
         options: ["Dev", "Test", "Prod"]
-
-      env:
-      SOURCE_ENV: ${{ github.event.inputs.source_env }}
-      TARGET_ENV: ${{ github.event.inputs.target_env }}
-      JOB_ID: ${{ github.event.inputs.job_id }}
-      DATABRICKS_API_TOKEN: ${{ secrets.DATABRICKS_API_TOKEN }}
-        
+      job_id:
+        description: "Enter the Databricks Job ID"
+        required: true
 
 jobs:
   databricks_migration:
@@ -32,7 +81,8 @@ jobs:
       SOURCE_ENV: ${{ github.event.inputs.source_env }}
       TARGET_ENV: ${{ github.event.inputs.target_env }}
       JOB_ID: ${{ github.event.inputs.job_id }}
-      DATABRICKS_API_TOKEN: ${{secrets.DATABRICKS_API_TOKEN}}
+      DATABRICKS_API_TOKEN: ${{ secrets.DATABRICKS_API_TOKEN }}
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -52,38 +102,14 @@ jobs:
         run: |
           python .github/workflows/apicall.py
 
-      
       - name: Select Databricks Job ID
         run: |
           # Python script to prompt the user to select a job ID and list its details
           python .github/workflows/select_job_id.py
 
-      # - name: Input Databricks Job ID
-      #   uses: actions/github-script@v5
-      #   with:
-      #     script: |
-      #       const jobID = await github.repos.createDispatchEvent({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         event_type: 'job-id-input'
-      #       });
-      
-      #       core.setOutput('jobID', jobID.data.id);
-      
-      # - name: Run Databricks Job Details
-      #   run: python .github/workflows/jobdetails.py ${{ steps.input.outputs.jobID }}
-      #   continue-on-error: true
 
 
 
 
 
 
-      # - name: Enter Source Job ID
-      #   run: |
-      #     source_job_id=${{ secrets.SOURCE_JOB_ID }}
-      #     python .github/workflows/get_job_details.py $source_job_id
-
-      # - name: Call Databricks API
-      #   run: |
-      #     python .github/workflows/apicall.py
