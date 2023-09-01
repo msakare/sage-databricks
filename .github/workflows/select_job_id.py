@@ -21,11 +21,11 @@ import os
 
 current_directory = os.getcwd()
 
-file_path = os.path.join(current_directory, 'downloaded_api_response.json')
+# file_path = os.path.join(current_directory, 'downloaded_api_response.json')
 
 # Read job IDs from the api_response.json artifact
 try:
-    with open(file_path, 'r') as file:
+    with open('/home/runner/work/sage-databricks/sage-databricks/downloaded_api_response.json', 'r') as file:
         response_data = json.load(file)
         job_ids = response_data.get('job_ids', [])
 except FileNotFoundError:
