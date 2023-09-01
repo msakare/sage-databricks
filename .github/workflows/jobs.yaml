@@ -46,21 +46,21 @@ jobs:
         run: |
           python .github/workflows/apicall.py
 
-      - name: Input Databricks Job ID
-        uses: actions/github-script@v5
-        with:
-          script: |
-            const jobID = await github.repos.createDispatchEvent({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              event_type: 'job-id-input'
-            });
+      # - name: Input Databricks Job ID
+      #   uses: actions/github-script@v5
+      #   with:
+      #     script: |
+      #       const jobID = await github.repos.createDispatchEvent({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         event_type: 'job-id-input'
+      #       });
       
-            core.setOutput('jobID', jobID.data.id);
+      #       core.setOutput('jobID', jobID.data.id);
       
-      - name: Run Databricks Job Details
-        run: python .github/workflows/jobdetails.py ${{ steps.input.outputs.jobID }}
-        continue-on-error: true
+      # - name: Run Databricks Job Details
+      #   run: python .github/workflows/jobdetails.py ${{ steps.input.outputs.jobID }}
+      #   continue-on-error: true
 
 
 
