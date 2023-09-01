@@ -48,9 +48,9 @@ jobs:
         run: |
           python .github/workflows/apicall.py
 
-enter_job_id:
-needs: databricks_migration
-runs-on: ubuntu-latest
+  enter_job_id:
+    needs: databricks_migration
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
