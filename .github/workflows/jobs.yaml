@@ -16,6 +16,12 @@ on:
         required: true
         type: choice
         options: ["Dev", "Test", "Prod"]
+
+      env:
+      SOURCE_ENV: ${{ github.event.inputs.source_env }}
+      TARGET_ENV: ${{ github.event.inputs.target_env }}
+      JOB_ID: ${{ github.event.inputs.job_id }}
+      DATABRICKS_API_TOKEN: ${{ secrets.DATABRICKS_API_TOKEN }}
         
 
 jobs:
@@ -45,6 +51,12 @@ jobs:
       - name: Call Databricks API
         run: |
           python .github/workflows/apicall.py
+
+      
+      - name: Select Databricks Job ID
+        run: |
+          # Python script to prompt the user to select a job ID and list its details
+          python .github/workflows/select_job_id.py
 
       # - name: Input Databricks Job ID
       #   uses: actions/github-script@v5
