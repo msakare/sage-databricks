@@ -118,7 +118,7 @@ jobs:
 
 
       - name: Fetch Job Details
-        run: python fetch_job_details.py
+        run: python .github/workflows/fetch_job_details.py
         env:
           DATABRICKS_API_TOKEN: ${{ secrets.DATABRICKS_API_TOKEN }}
           JOB_ID: ${{ env.JOB_ID }}
