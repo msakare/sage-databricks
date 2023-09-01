@@ -124,7 +124,7 @@ jobs:
       #     JOB_ID: ${{ env.JOB_ID }}
 
       - name: Fetch Job Details
-        run: python fetch_job_details.py ${{ env.JOB_ID }}  # Pass the JOB_ID environment variable as an argument
+        run: python .github/workflows/fetch_job_details.pyy ${{ env.JOB_ID }} 
         env:
             DATABRICKS_API_TOKEN: ${{ secrets.DATABRICKS_API_TOKEN }}
 
