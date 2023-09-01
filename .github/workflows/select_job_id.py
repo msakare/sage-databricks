@@ -8,7 +8,7 @@ databricks_api_url = "https://sagerx-aws-devtest-comm.cloud.databricks.com/api/2
 databricks_api_token = "dapic100eda776087528cd6a82f7ca84914a"
 
 # Prompt the user to select a Databricks job ID
-job_id = input("Enter the Databricks Job ID:  496296034538647")
+job_id = input("Enter the Databricks Job ID:496296034538647")
 
 # Construct the API request URL
 job_details_url = f"{databricks_api_url}/{job_id}"
