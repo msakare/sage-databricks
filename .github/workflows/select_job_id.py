@@ -28,6 +28,7 @@ try:
     with open('/home/runner/work/sage-databricks/sage-databricks/api_response.json', 'r') as file:
         response_data = json.load(file)
         job_ids = response_data.get('job_ids', [])
+        print(job_ids)
 except FileNotFoundError:
     print("Error: api_response.json not found. Please run the previous steps to obtain job IDs.")
     sys.exit(1)
