@@ -21,7 +21,7 @@ on:
           - Prod
 
 jobs:
-  - name: fetch_jobs_and_create_dropdown
+  databricks_migration:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
