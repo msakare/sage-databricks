@@ -3,8 +3,8 @@ name: Trigger Databricks Job
 on:
   workflow_run:
     workflows: ["Databricks job migration"]
-    types:
-      - completed
+    # types:
+    #   - completed
 
 # jobs:
 #   trigger:
