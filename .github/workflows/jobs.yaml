@@ -1,56 +1,3 @@
-# name: Databricks job migration
-
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       source_env:
-#         type: choice
-#         description: "Select source environment"
-#         required: true
-#         options:
-#         - Dev
-#         - Test
-#         - Prod
-#       target_env:
-#         description: "Select target environment"
-#         required: true
-#         type: choice
-#         options: ["Dev", "Test", "Prod"]
-        
-# jobs:
-#   databricks_migration:
-#     runs-on: ubuntu-latest
-
-#     env:
-#       SOURCE_ENV: ${{ github.event.inputs.source_env }}
-#       TARGET_ENV: ${{ github.event.inputs.target_env }}
-#       JOB_ID: ${{ github.event.inputs.job_id }}
-#       DATABRICKS_API_TOKEN: ${{secrets.DATABRICKS_API_TOKEN}}
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-        
-#       - name: Setup Python
-#         uses: actions/setup-python@v2
-#         with:
-#           python-version: 3.9
-
-#       - name: Install dependencies
-#         run: |
-#           python -m pip install --upgrade pip
-#           pip install -r requirements.txt
-#           pip install requests
-  
-#       - name: Call Databricks API
-#         run: |
-#           python .github/workflows/apicall.py
-
-      
-#       - name: Select Databricks Job ID
-#         run: |
-#           # Python script to prompt the user to select a job ID and list its details
-#           python .github/workflows/select_job_id.py
-
 name: Databricks Job Migration
 
 on:
@@ -69,24 +16,19 @@ on:
         required: true
         type: choice
         options: ["Dev", "Test", "Prod"]
-      job_id:
-        description: "Enter the Databricks Job ID"
-        required: true
-        options:
-                - ${{ job_data }}
-        type: choice
-
-jobs:
-  databricks_migration:
-    runs-on: ubuntu-latest
-
-    env:
-      SOURCE_ENV: ${{ github.event.inputs.source_env }}
-      TARGET_ENV: ${{ github.event.inputs.target_env }}
-      JOB_ID: ${{ github.event.inputs.job_id }}
-      DATABRICKS_API_TOKEN: ${{ secrets.DATABRICKS_API_TOKEN }}
-    
-    steps:
+      # job_id:
+      #   description: "Enter the Databricks Job ID"
+      #   required: true
+      #   options:
+      #           - ${{ job_data }}
+      #   type: choice
+# stages:
+#   - stage: list job id's
+    jobs:
+    - job: select source and target environments
+      pool:
+       vmImage: 'ubuntu-latest'
+      steps:
       - name: Checkout code
         uses: actions/checkout@v2
         
@@ -122,24 +64,35 @@ jobs:
       - name: Debug Current Directory
         run: |
           pwd
-
-
-
-
-      # - name: Fetch Job Details
-      #   run: python .github/workflows/fetch_job_details.py
-      #   env:
-      #     DATABRICKS_API_TOKEN: ${{ secrets.DATABRICKS_API_TOKEN }}
-      #     JOB_ID: ${{ env.JOB_ID }}
-
-
+          
+    - job: fetch_jobs
+      pool:
+       vmImage: 'ubuntu_latest'
+      steps:
       - name: Set JOB_ID from Artifact
         id: download
         # run: echo "JOB_ID=$(cat api_response.json | jq -r '.job_id')" >> $GITHUB_ENV
         run: python .github/workflows/readjsonfile.py
-
+  
+    # - job: create_dropdown
+    #   needs: fetch_jobs
+    #   runs-on: ubuntu-latest
+    #   steps:
       - name: Fetch Job Details
         run: python .github/workflows/fetch_job_details.py ${{ env.JOB_ID }}
+        env:
+          DATABRICKS_API_TOKEN: "dapic100eda776087528cd6a82f7ca84914a"
+      - name: Create Dropdown
+        id: dropdown
+        run: |
+          job_ids="${{ needs.fetch_jobs.outputs.job_ids }}"
+          echo "::set-output name=dropdown::${job_ids}"
+      
+      - name: Display Dropdown
+        run: echo "Job IDs: ${{ steps.dropdown.outputs.dropdown }}"
+
+   - name: Fetch Job Details
+     run: python .github/workflows/fetch_job_details.py ${{ env.JOB_ID }}
         env:
           DATABRICKS_API_TOKEN: "dapic100eda776087528cd6a82f7ca84914a"
 
@@ -148,10 +101,10 @@ jobs:
       #   run: echo "JOB_ID=${{ steps.download.outputs.job_id }}" >> $GITHUB_ENV
 
         
-      - name: Select Databricks Job ID
-        run: |
-          # Python script to prompt the user to select a job ID and list its details
-          python .github/workflows/select_job_id.py
+      # - name: Select Databricks Job ID
+      #   run: |
+      #     # Python script to prompt the user to select a job ID and list its details
+      #     python .github/workflows/select_job_id.py
 
 
 
