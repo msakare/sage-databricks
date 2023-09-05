@@ -1,4 +1,4 @@
-name: Databricks Job Migration
+name: Databricks job migration
 
 on:
   workflow_dispatch:
@@ -8,21 +8,24 @@ on:
         description: "Select source environment"
         required: true
         options:
-          - Dev
-          - Test
-          - Prod
+        - Dev
+        - Test
+        - Prod
       target_env:
         description: "Select target environment"
         required: true
         type: choice
-        options:
-          - Dev
-          - Test
-          - Prod
-
+        options: ["Dev", "Test", "Prod"]
+        
 jobs:
   databricks_migration:
     runs-on: ubuntu-latest
+
+    env:
+      SOURCE_ENV: ${{ github.event.inputs.source_env }}
+      TARGET_ENV: ${{ github.event.inputs.target_env }}
+      JOB_ID: ${{ github.event.inputs.job_id }}
+      DATABRICKS_API_TOKEN: ${{secrets.DATABRICKS_API_TOKEN}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
