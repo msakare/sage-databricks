@@ -1,6 +1,8 @@
 name: Databricks job migration
 
 on:
+  repository_dispatch:
+  
   workflow_dispatch:
     inputs:
       source_env:
@@ -16,6 +18,12 @@ on:
         required: true
         type: choice
         options: ["Dev", "Test", "Prod"]
+      additional_args:
+        description: JSON of additional options
+        type: string
+        default: '{}'
+        required: false
+        
         
 jobs:
   databricks_migration:
