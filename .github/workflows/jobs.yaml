@@ -73,7 +73,8 @@ jobs:
           echo "::set-output name=dropdown::${job_ids}"
 
       - name: Display Dropdown
-        run: echo "Job IDs: ${{ steps.dropdown.outputs.dropdown }}"
+        run: |
+          echo "Job IDs: ${{ steps.dropdown.outputs.dropdown }}"
 
 
 
