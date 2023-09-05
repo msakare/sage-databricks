@@ -45,7 +45,8 @@ jobs:
   
       - name: Call Databricks API and Publish Artifacts
         run: |
-          python .github/workflows/apicall.py > api_response.json
+          python .github/workflows/apicall.py 
+
 
       - name: Publish Response as Artifact
         uses: actions/upload-artifact@v2
