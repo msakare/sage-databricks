@@ -84,14 +84,13 @@ jobs:
 #           DATABRICKS_API_TOKEN: "dapic100eda776087528cd6a82f7ca84914a"
 
 
-#       # - name: Set JOB_ID from Artifact
-#       #   run: echo "JOB_ID=${{ steps.download.outputs.job_id }}" >> $GITHUB_ENV
+     # - name: Set JOB_ID from Artifact
+    #   run: echo "JOB_ID=${{ steps.download.outputs.job_id }}" >> $GITHUB_ENV
 
-        
-#       # - name: Select Databricks Job ID
-#       #   run: |
-#       #     # Python script to prompt the user to select a job ID and list its details
-#       #     python .github/workflows/select_job_id.py
+              # - name: Select Databricks Job ID
+    #   run: |
+     #     # Python script to prompt the user to select a job ID and list its details
+     #     python .github/workflows/select_job_id.py
 
 
 
