@@ -133,7 +133,7 @@ jobs:
       - name: Set JOB_ID from Artifact
         id: download
         # run: echo "JOB_ID=$(cat api_response.json | jq -r '.job_id')" >> $GITHUB_ENV
-        run: python readjsonfile.py
+        run: python .github/workflows/readjsonfile.py
 
       - name: Fetch Job Details
         run: python .github/workflows/fetch_job_details.py ${{ env.JOB_ID }}
