@@ -69,12 +69,12 @@ jobs:
       - name: Create Dropdown
         id: dropdown
         run: |
-          job_ids="${{ needs.download.outputs.job_ids }}"
-          echo "::set-output name=dropdown::${job_ids}"
+          job_ids="${{ needs.download.outputs.job_id }}"
+          echo "::set-output name=dropdown::${job_id}"
 
       - name: Display Dropdown
         run: |
-          echo "Job IDs: ${{ steps.dropdown.outputs.dropdown }}"
+          echo "Job ID: ${{ steps.dropdown.outputs.dropdown }}"
 
 
 
