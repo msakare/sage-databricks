@@ -66,15 +66,16 @@ jobs:
       #   env:
       #     DATABRICKS_API_TOKEN: "dapic100eda776087528cd6a82f7ca84914a"
 
+
       - name: Create Dropdown
         id: dropdown
         run: |
-          job_ids="${{ needs.download.outputs.job_id }}"
-          echo "::set-output name=dropdown::${job_id}"
+          job_ids="${{ steps.download.outputs.job_ids }}"
+          echo "::set-output name=dropdown::${job_ids}"
 
       - name: Display Dropdown
         run: |
-          echo "Job ID: ${{ steps.dropdown.outputs.dropdown }}"
+          echo "Job IDs: ${{ steps.dropdown.outputs.dropdown }}"
 
 
 
