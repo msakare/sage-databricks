@@ -18,11 +18,6 @@ on:
         required: true
         type: choice
         options: ["Dev", "Test", "Prod"]
-      additional_args:
-        description: JSON of additional options
-        type: string
-        default: '{}'
-        required: false
         
         
 jobs:
@@ -88,10 +83,9 @@ jobs:
 
 
         
-#    - name: Fetch Job Details
-#      run: python .github/workflows/fetch_job_details.py ${{ env.JOB_ID }}
-#         env:
-#           DATABRICKS_API_TOKEN: "dapic100eda776087528cd6a82f7ca84914a"
+      - name: Fetch Job Details
+        run: python .github/workflows/fetch_job_details.py 
+
 
 
      # - name: Set JOB_ID from Artifact
