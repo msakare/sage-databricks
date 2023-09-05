@@ -21,13 +21,11 @@ on:
       #   required: true
       #   options:
       #           - ${{ job_data }}
-      #   type: choice
-# stages:
-#   - stage: list job id's
-    jobs:
-    - job: select source and target environments
-      pool:
-       vmImage: 'ubuntu-latest'
+
+jobs:
+  - job: select source and target environments
+    pool:
+      vmImage: 'ubuntu-latest'
       steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -65,10 +63,10 @@ on:
         run: |
           pwd
           
-    - job: fetch_jobs
-      pool:
+  - job: fetch_jobs
+    pool:
        vmImage: 'ubuntu_latest'
-      steps:
+    steps:
       - name: Set JOB_ID from Artifact
         id: download
         # run: echo "JOB_ID=$(cat api_response.json | jq -r '.job_id')" >> $GITHUB_ENV
