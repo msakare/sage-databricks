@@ -69,9 +69,12 @@ on:
         required: true
         type: choice
         options: ["Dev", "Test", "Prod"]
-      # job_id:
-      #   description: "Enter the Databricks Job ID"
-      #   required: true
+      job_id:
+        description: "Enter the Databricks Job ID"
+        required: true
+        options:
+                - ${{ job_data }}
+        type: choice
 
 jobs:
   databricks_migration:
