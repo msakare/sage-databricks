@@ -3,8 +3,9 @@ name: Trigger Databricks Job
 on:
   workflow_run:
     workflows: ["Databricks job migration"]
-    # types:
-    #   - completed
+    types: [completed]
+    branches:
+      - 'dev_jobs/**'
 
 # jobs:
 #   trigger:
@@ -40,8 +41,11 @@ jobs:
           repository: msakare/sage-databricks  # Replace with the target repository
           workflow: Databricks job migration
           ref: dev_jobs  # Replace with the branch you want to trigger the workflow on
-          inputs:
-            job_id: ${{ env.JOB_ID }}
+          "inputs": {
+              "job_id": "${{ github.event.workflow_run.workflow_job.outputs.JOB_ID }}"
+              "type": "choice"
+            }
+          }'
 
 
 
