@@ -19,7 +19,7 @@ jobs:
         if: steps.check_status.outputs.status == 'true'
         run: |
           curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/${{ msakare/sage-datbricks }}/actions/workflows/Databricks%20job%20migration/dispatches \
             -d '{
