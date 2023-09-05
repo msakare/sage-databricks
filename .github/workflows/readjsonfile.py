@@ -1,4 +1,4 @@
- import json
+import json
  
 # Opening JSON file
 f = open('./api_response.json')
