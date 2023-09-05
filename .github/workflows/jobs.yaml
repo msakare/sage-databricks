@@ -1,7 +1,6 @@
 name: Databricks job migration
 
 on:
-  repository_dispatch:
   
   workflow_dispatch:
     inputs:
