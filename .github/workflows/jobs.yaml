@@ -128,9 +128,8 @@ on:
           - Prod
 
 jobs:
-  - job: select source and target environments
-    pool:
-      vmImage: 'ubuntu-latest'
+  - name: fetch_jobs_and_create_dropdown
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -162,14 +161,6 @@ jobs:
           name: databricks-api-response
           path: .
 
-      - name: Debug Current Directory
-        run: |
-          pwd
-          
-  - job: fetch_jobs
-    pool:
-      vmImage: 'ubuntu_latest'
-    steps:
       - name: Set JOB_ID from Artifact
         id: download
         run: python .github/workflows/readjsonfile.py
@@ -179,18 +170,15 @@ jobs:
         env:
           DATABRICKS_API_TOKEN: "dapic100eda776087528cd6a82f7ca84914a"
 
-      - job: create_dropdown
-        needs: fetch_jobs
-        runs-on: ubuntu-latest
-        steps:
-          - name: Create Dropdown
-            id: dropdown
-            run: |
-              job_ids="${{ needs.fetch_jobs.outputs.job_ids }}"
-              echo "::set-output name=dropdown::${job_ids}"
-      
-          - name: Display Dropdown
-            run: echo "Job IDs: ${{ steps.dropdown.outputs.dropdown }}"
+      - name: Create Dropdown
+        id: dropdown
+        run: |
+          job_ids="${{ needs.download.outputs.job_ids }}"
+          echo "::set-output name=dropdown::${job_ids}"
+
+      - name: Display Dropdown
+        run: echo "Job IDs: ${{ steps.dropdown.outputs.dropdown }}"
+
 
 
 
