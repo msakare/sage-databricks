@@ -48,21 +48,21 @@ jobs:
           python .github/workflows/apicall.py 
 
 
-      - name: Publish Response as Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: databricks-api-response
-          path: api_response.json
+      # - name: Publish Response as Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: databricks-api-response
+      #     path: api_response.json
 
-      - name: Download and Process API Response
-        uses: actions/download-artifact@v2
-        with:
-          name: databricks-api-response
-          path: .
+      # - name: Download and Process API Response
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: databricks-api-response
+      #     path: .
 
-      - name: Set JOB_ID from Artifact
-        id: download
-        run: python .github/workflows/readjsonfile.py
+      # - name: Set JOB_ID from Artifact
+      #   id: download
+      #   run: python .github/workflows/readjsonfile.py
 
       # - name: Fetch Job Details
       #   run: python .github/workflows/fetch_job_details.py ${{ env.JOB_ID }}
