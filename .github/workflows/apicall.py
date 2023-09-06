@@ -29,6 +29,7 @@ response = requests.request("GET", url, headers=headers, data=payload)
 if response.status_code == 200:
     data = response.json()
     job_ids = [str(job["job_id"]) for job in data["jobs"]]
+    print(job_ids)
     
     # Set the job IDs as environment variables
     for index, job_id in enumerate(job_ids, start=1):
