@@ -70,7 +70,7 @@ jobs:
       - name: Trigger Second Workflow
         run: |
           selected_job_id="${{ steps.select_job_id.outputs.selected_job_id }}"
-          gh workflow run Second Workflow --ref dev_jobs --inputs job_ids="${selected_job_id}"
+          gh workflow run Second Workflow --ref dev_jobs -F job_ids="${selected_job_id}"
 
 
 
