@@ -2,10 +2,11 @@ name: Second Workflow
 
 on:
   workflow_run:
-    workflows: 'Databricks job migration'
-    types: completed
+    workflows: ["Databricks job migration"]
+    types: [completed]
     branches:
-      - 'dev_jobs'
+      - 'dev_jobs/**'
+    
 
   workflow_dispatch:
     inputs:
@@ -19,6 +20,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Trigger Other Workflow
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          repository: msakare/sage-databricks  
+          workflow: Databricks job migration
+          ref: dev_jobs  
+          
       - name: Get Job IDs Input
         id: get_job_ids
         run: echo "::set-output name=job_ids::${{ github.event.inputs.job_ids }}"
