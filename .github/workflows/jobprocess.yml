@@ -1,6 +1,5 @@
 
-name: SecondWorkflow
-
+name: jobprocess
 on:
 
   workflow_dispatch:
