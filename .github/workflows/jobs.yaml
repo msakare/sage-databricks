@@ -91,7 +91,7 @@ jobs:
       - name: Gather User Input
         id: user_input
         run: |
-          job_ids=$(cat job-ids)
+          job_ids=$(cat job_ids)
           echo "Available Job IDs: $job_ids"
           echo "Please enter the Job ID you want to use:"
           read selected_job_id
