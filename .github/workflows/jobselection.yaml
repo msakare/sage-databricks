@@ -2,7 +2,7 @@ name: Second Workflow
 
 on:
   workflow_run:
-    workflows: "Databricks job migration"
+    workflows: 'Databricks job migration'
     types: completed
     branches:
       - 'dev_jobs'
