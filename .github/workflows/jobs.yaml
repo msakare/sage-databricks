@@ -57,6 +57,28 @@ jobs:
           echo "Available Job IDs:"
           echo "${{ steps.job_ids.outputs.job_ids }}"  
 
+      - name: Trigger Second Workflow
+        # if: ${{ github.event.inputs.source_env == 'Prod' }} 
+        run: |
+          job_ids="${{ steps.job_ids.outputs.job_ids }}"
+          echo "Triggering second workflow with job IDs: $job_ids"
+          echo "::set-output name=job_ids::${job_ids}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -99,8 +121,8 @@ jobs:
 
 
         
-      - name: Fetch Job Details
-        run: python .github/workflows/fetch_job_details.py 
+      # - name: Fetch Job Details
+      #   run: python .github/workflows/fetch_job_details.py 
 
 
 
