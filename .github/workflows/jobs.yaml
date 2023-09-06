@@ -72,71 +72,28 @@ jobs:
           job_ids: ${{ steps.job_ids.outputs.job_ids }}
         shell: bash
 
-      - name: Download Job IDs Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: job_ids
 
-      - name: Gather User Input
-        id: user_input
-        run: |
-          job_ids=$(cat job-ids)
-          echo "Available Job IDs: $job_ids"
-          echo "Please enter the Job ID you want to use:"
-          read selected_job_id
-          echo "::set-output name=selected_job_id::${selected_job_id}"
-        shell: bash
+      # - name: Select Job ID
+      #   id: select_job_id
+      #   run: |
+      #     job_ids="${{ steps.job_ids.outputs.job_ids }}"
+      #     echo "Available Job IDs: $job_ids"
+      #     echo "Please enter the Job ID you want to use:"
+      #     read selected_job_id
+      #     echo "::set-output name=selected_job_id::${selected_job_id}"
+      #   shell: bash
 
-      - name: Set up Git
-        run: |
-          git config --global user.name "Monika"
-          git config --global user.email "monika.sakare@capgemini.com"
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-
-      - name: Commit Selected Job ID
-        run: |
-          selected_job_id="${{ steps.user_input.outputs.selected_job_id }}"
-          echo "Selected Job ID: $selected_job_id" > selected_job_id.txt
-          git add selected_job_id.txt
-          git commit -m "Add selected Job ID"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-
-      - name: Trigger Workflow with Selected Job ID
-        run: |
-          curl -X POST -u "GITHUB_USERNAME:${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/repos/REPO_OWNER/REPO_NAME/actions/workflows/WORKFLOW_NAME/dispatches" \
-            -d '{"ref": "BRANCH", "inputs": {"selected_job_id": "'$selected_job_id'"}}'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
-      
-
-      - name: Select Job ID
-        id: select_job_id
-        run: |
-          job_ids="${{ steps.job_ids.outputs.job_ids }}"
-          echo "Available Job IDs: $job_ids"
-          echo "Please enter the Job ID you want to use:"
-          read selected_job_id
-          echo "::set-output name=selected_job_id::${selected_job_id}"
-        shell: bash
-
-      - name: Run Python Script with Selected Job ID
-        run: |
-          selected_job_id="${{ steps.select_job_id.outputs.selected_job_id }}"
-          databricks_api_token = "dapic100eda776087528cd6a82f7ca84914a"
-          url="https://sagerx-aws-devtest-comm.cloud.databricks.com/api/2.1/jobs/get?job_id=$selected_job_id"
-          payload={}
-          headers = {
-            'Authorization': f'Bearer {databricks_api_token}'
-          }
-          response = requests.request("GET", url, headers=headers, data=payload)
-          echo $response.text
+      # - name: Run Python Script with Selected Job ID
+      #   run: |
+      #     selected_job_id="${{ steps.select_job_id.outputs.selected_job_id }}"
+      #     databricks_api_token = "dapic100eda776087528cd6a82f7ca84914a"
+      #     url="https://sagerx-aws-devtest-comm.cloud.databricks.com/api/2.1/jobs/get?job_id=$selected_job_id"
+      #     payload={}
+      #     headers = {
+      #       'Authorization': f'Bearer {databricks_api_token}'
+      #     }
+      #     response = requests.request("GET", url, headers=headers, data=payload)
+      #     echo $response.text
 
 
 
