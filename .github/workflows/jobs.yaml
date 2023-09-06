@@ -79,7 +79,7 @@ jobs:
         run: |
           selected_job_id="${{ steps.select_job_id.outputs.selected_job_id }}"
           export GH_TOKEN="${{ secrets.PAT_TOKEN }}"
-          gh workflow run Second Workflow --ref dev_jobs -F job_ids="${selected_job_id}"
+          gh workflow run SecondWorkflow --ref dev_jobs -F job_ids="${selected_job_id}"
 
 
 
