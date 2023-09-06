@@ -1,0 +1,29 @@
+
+name: SecondWorkflow
+
+on:
+
+  workflow_dispatch:
+    inputs:
+      job_ids:
+        description: "Select job IDs (comma-separated)"
+        required: true
+        type: string
+
+jobs:
+  process_job_ids:
+    runs-on: ubuntu-latest
+
+    steps:
+          
+      - name: Get Job IDs Input
+        id: get_job_ids
+        run: echo "::set-output name=job_ids::${{ github.event.inputs.job_ids }}"
+        shell: bash
+        env:
+          job_ids: ${{ github.event.inputs.job_ids }}
+
+      - name: Display Selected Job IDs
+        run: |
+          selected_job_ids="${{ steps.get_job_ids.outputs.job_ids }}"
+          echo "Selected Job IDs: $selected_job_ids"
