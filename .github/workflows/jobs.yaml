@@ -79,7 +79,7 @@ jobs:
         working-directory: ${{ github.workspace }}
 
   select_and_run_job:
-    needs: Databricks job migration
+    needs: databricks_migration
     runs-on: ubuntu-latest
 
     steps:
