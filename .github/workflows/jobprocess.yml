@@ -1,12 +1,10 @@
 
-name: SecondWorkflow
+name: jobprocess
 
 on:
-
   workflow_dispatch:
     inputs:
       job_ids:
-        description: "Select job IDs (comma-separated)"
         required: true
         type: string
 
