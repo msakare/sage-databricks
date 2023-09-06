@@ -9,12 +9,12 @@ on:
     branches:
       - 'dev_jobs/**'
       
-  workflow_dispatch:
-    inputs:
-      job_ids:
-        description: "Select job IDs (comma-separated)"
-        required: true
-        type: choice
+  # workflow_dispatch:
+  #   inputs:
+  #     job_ids:
+  #       description: "Select job IDs (comma-separated)"
+  #       required: true
+  #       type: choice
 
 jobs:
   process_job_ids:
