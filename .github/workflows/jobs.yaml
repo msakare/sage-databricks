@@ -17,6 +17,11 @@ on:
         required: true
         type: choice
         options: ["Dev", "Test", "Prod"]
+      job_id:
+        description: "Select a job ID"
+        required: true
+        type: choice
+        options: ${{ steps.job_ids.outputs.job_ids }}
         
         
 jobs:
@@ -60,20 +65,34 @@ jobs:
           job_ids=$(python .github/workflows/apicall.py)
           echo "::set-output name=job_ids::${job_ids}"
 
+      - name: list Job ID
+        id: select_job_id
+        run: echo "Selected job ID is ${{ steps.job_ids.outputs.job_ids }}"
+        env:
+          job_ids: ${{ steps.job_ids.outputs.job_ids }}
+        shell: bash
+
+      - name: Fetch Job Details
+        run: python .github/workflows/fetch_job_details.py ${{ env.JOB_ID }}
+        env:
+          DATABRICKS_API_TOKEN: "dapic100eda776087528cd6a82f7ca84914a"
+
+
+
       # - name: Display Job IDs
       #   run: |
       #     echo "Available Job IDs:"
       #     echo "${{ steps.job_ids.outputs.job_ids }}"  
       # ... (previous steps) ...
 
-      - name: Capture Selected Job ID
-        id: select_job_id
-        run: |
-          job_ids="${{ steps.job_ids.outputs.job_ids }}"
-          echo "::set-output name=selected_job_id::${job_ids}"
-        shell: bash
-        env:
-          job_ids: ${{ steps.job_ids.outputs.job_ids }}
+      # - name: Capture Selected Job ID
+      #   id: select_job_id
+      #   run: |
+      #     job_ids="${{ steps.job_ids.outputs.job_ids }}"
+      #     echo "::set-output name=selected_job_id::${job_ids}"
+      #   shell: bash
+      #   env:
+      #     job_ids: ${{ steps.job_ids.outputs.job_ids }}
 
       # - name: Generate List of Job IDs
       #   id: generate_job_ids
@@ -83,21 +102,21 @@ jobs:
       #     job_ids="job_id1,job_id2,job_id3"  # Replace with your actual list
       #     echo "::set-output name=job_ids::${job_ids}"
 
-      - name: Workflow Dispatch
-        id: workflow_dispatch
-        uses: softprops/action-gh-release@v1
-        with:
-          ref: dev_jobs
-          workflow: Second Workflow
-          inputs: |
-            {
-              "job_ids": {
-                "description": "Select a job ID",
-                "required": true,
-                "type": "choice",
-                "options": "${{ steps.generate_job_ids.outputs.job_ids }}"
-              }
-            }
+      # - name: Workflow Dispatch
+      #   id: workflow_dispatch
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     ref: dev_jobs
+      #     workflow: Second Workflow
+      #     inputs: |
+      #       {
+      #         "job_ids": {
+      #           "description": "Select a job ID",
+      #           "required": true,
+      #           "type": "choice",
+      #           "options": "${{ steps.generate_job_ids.outputs.job_ids }}"
+      #         }
+      #       }
 
       # - name: Trigger Second Workflow
       #   run: |
