@@ -32,18 +32,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install GitHub CLI
-        run: |
-          echo "Installing GitHub CLI..."
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-          sudo apt-add-repository https://cli.github.com/packages
-          sudo apt-get update
-          sudo apt-get install curl -y
-          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
-          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages jammy main" | sudo tee /etc/apt/sources.list.d/github-cli.list
-          sudo apt-get update
-          sudo apt-get install gh -y
-          echo "GitHub CLI installed."
+      - name: Install GH CLI
+        uses: dev-hanz-ops/install-gh-cli-action
+        with:
+          gh-cli-version: 2.14.2 
         
       - name: Setup Python
         uses: actions/setup-python@v2
