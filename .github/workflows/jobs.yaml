@@ -31,6 +31,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up GitHub CLI
+        run: |
+          echo "Installing GitHub CLI..."
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+          sudo apt-add-repository https://cli.github.com/packages
+          sudo apt-get update
+          sudo apt-get install gh -y
+          echo "GitHub CLI installed."
         
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -70,6 +79,7 @@ jobs:
       - name: Trigger Second Workflow
         run: |
           selected_job_id="${{ steps.select_job_id.outputs.selected_job_id }}"
+          export GH_TOKEN="${{ secrets.GITHUB_TOKEN }}"
           gh workflow run Second Workflow --ref dev_jobs -F job_ids="${selected_job_id}"
 
 
