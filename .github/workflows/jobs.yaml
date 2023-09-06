@@ -1,25 +1,44 @@
 name: Databricks job migration
 
 on:
+  
   workflow_dispatch:
     inputs:
       source_env:
+        type: choice
         description: "Select source environment"
         required: true
+        options:
+        - Dev
+        - Test
+        - Prod
+      target_env:
+        description: "Select target environment"
+        required: true
+        type: choice
         options: ["Dev", "Test", "Prod"]
-
+        
+        
 jobs:
   databricks_migration:
     runs-on: ubuntu-latest
 
     env:
       SOURCE_ENV: ${{ github.event.inputs.source_env }}
-      TARGET_ENV: test
-      DATABRICKS_API_TOKEN: ${{ secrets.DATABRICKS_API_TOKEN }}  # Make sure to set this secret in your repository settings
-
+      TARGET_ENV: ${{ github.event.inputs.target_env }}
+      JOB_ID: ${{ github.event.inputs.job_id }}
+      DATABRICKS_API_TOKEN: ${{secrets.DATABRICKS_API_TOKEN}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: setup-ghcli
+        # You may pin to the exact commit or the version.
+        # uses: twildber/setup-ghcli@89d4a02bf60883b0b609bba486acafabd82066bf
+        uses: twildber/setup-ghcli@v0.8.0
+        with:
+          # The version to use. Example: 2.28.0
+          version: 2.28.0
         
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -32,6 +51,113 @@ jobs:
           pip install -r requirements.txt
           pip install requests
   
-      - name: Call Databricks API
+      # - name: Call Databricks API and Publish Artifacts
+      #   run: |
+      #     python .github/workflows/apicall.py 
+      - name: Call Databricks API and Extract Job IDs
+        id: job_ids
         run: |
-          python .github/workflows/apicall.py
+          job_ids=$(python .github/workflows/apicall.py)
+          echo "::set-output name=job_ids::${job_ids}"
+
+      # - name: Display Job IDs
+      #   run: |
+      #     echo "Available Job IDs:"
+      #     echo "${{ steps.job_ids.outputs.job_ids }}"  
+      # ... (previous steps) ...
+
+      - name: Capture Selected Job ID
+        id: select_job_id
+        run: |
+          job_ids="${{ steps.job_ids.outputs.job_ids }}"
+          echo "::set-output name=selected_job_id::${job_ids}"
+        shell: bash
+        env:
+          job_ids: ${{ steps.job_ids.outputs.job_ids }}
+
+      - name: Trigger Second Workflow
+        run: |
+          selected_job_id="${{ steps.select_job_id.outputs.selected_job_id }}"
+          export GH_TOKEN="${{ secrets.PAT_TOKEN }}"
+          gh workflow run "SecondWorkflow" --ref dev_jobs -F job_ids="${selected_job_id}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      # - name: Publish Response as Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: databricks-api-response
+      #     path: api_response.json
+
+      # - name: Download and Process API Response
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: databricks-api-response
+      #     path: .
+
+      # - name: Set JOB_ID from Artifact
+      #   id: download
+      #   run: python .github/workflows/readjsonfile.py
+
+      # - name: Fetch Job Details
+      #   run: python .github/workflows/fetch_job_details.py ${{ env.JOB_ID }}
+      #   env:
+      #     DATABRICKS_API_TOKEN: "dapic100eda776087528cd6a82f7ca84914a"
+
+
+      # - name: Create Dropdown
+      #   id: dropdown
+      #   run: |
+      #     job_ids="${{ steps.download.outputs.job_ids }}"
+      #     echo "::set-output name=dropdown::${job_ids}"
+
+      # - name: Display Dropdown
+      #   run: |
+      #     echo "Job IDs: ${{ steps.dropdown.outputs.dropdown }}"
+
+
+
+        
+      # - name: Fetch Job Details
+      #   run: python .github/workflows/fetch_job_details.py 
+
+
+
+     # - name: Set JOB_ID from Artifact
+    #   run: echo "JOB_ID=${{ steps.download.outputs.job_id }}" >> $GITHUB_ENV
+
+              # - name: Select Databricks Job ID
+    #   run: |
+     #     # Python script to prompt the user to select a job ID and list its details
+     #     python .github/workflows/select_job_id.py
+
+
+
+
+
+
+
+
+
+
