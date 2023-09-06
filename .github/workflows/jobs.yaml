@@ -52,17 +52,26 @@ jobs:
           job_ids=$(python .github/workflows/apicall.py)
           echo "::set-output name=job_ids::${job_ids}"
 
-      - name: Display Job IDs
-        run: |
-          echo "Available Job IDs:"
-          echo "${{ steps.job_ids.outputs.job_ids }}"  
+      # - name: Display Job IDs
+      #   run: |
+      #     echo "Available Job IDs:"
+      #     echo "${{ steps.job_ids.outputs.job_ids }}"  
+      # ... (previous steps) ...
 
-      - name: Trigger Second Workflow
-        # if: ${{ github.event.inputs.source_env == 'Prod' }} 
+      - name: Capture Selected Job ID
+        id: select_job_id
         run: |
           job_ids="${{ steps.job_ids.outputs.job_ids }}"
-          echo "Triggering second workflow with job IDs: $job_ids"
-          echo "::set-output name=job_ids::${job_ids}"
+          echo "::set-output name=selected_job_id::${job_ids}"
+        shell: bash
+        env:
+          job_ids: ${{ steps.job_ids.outputs.job_ids }}
+
+      - name: Trigger Second Workflow
+        run: |
+          selected_job_id="${{ steps.select_job_id.outputs.selected_job_id }}"
+          gh workflow run Second Workflow --ref dev_jobs --inputs job_ids="${selected_job_id}"
+
 
 
 
