@@ -3,14 +3,14 @@ name: SecondWorkflow
 
 
 on:
-  push:
-    branches: dev_jobs
-  # workflow_dispatch:
-  #   inputs:
-  #     source_env:
-  #       description: "Select source environment"
-  #       required: true
-  #       options: ["Dev", "Test", "Prod"]
+  # push:
+  #   branches: dev_jobs
+  workflow_dispatch:
+    inputs:
+      source_env:
+        description: "Select source environment"
+        required: true
+        options: ["Dev", "Test", "Prod"]
 
 jobs:
   process_job_ids:
