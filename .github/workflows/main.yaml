@@ -3,27 +3,55 @@ name: SecondWorkflow
 
 
 on:
-  workflow_dispatch:
-    inputs:
-      source_env:
-        description: "Select source environment"
-        required: true
-        options: ["Dev", "Test", "Prod"]
+  workflow_run:
+    workflows: ["Databricks job migration"]
+    types: [completed]
+    branches:
+      - 'dev_jobs/**'
+      
+  # workflow_dispatch:
+  #   inputs:
+  #     job_ids:
+  #       description: "Select job IDs (comma-separated)"
+  #       required: true
+  #       type: choice
 
 jobs:
   process_job_ids:
     runs-on: ubuntu-latest
 
     steps:
-          
-      - name: Get Job IDs Input
-        id: get_job_ids
-        run: echo "::set-output name=job_ids::${{ github.event.inputs.job_ids }}"
-        shell: bash
-        env:
-          job_ids: ${{ github.event.inputs.job_ids }}
-
-      - name: Display Selected Job IDs
+      - name: Generate List of Job IDs
+        id: generate_job_ids
         run: |
-          selected_job_ids="${{ steps.get_job_ids.outputs.job_ids }}"
-          echo "Selected Job IDs: $selected_job_ids"
+          # Replace this with your logic to generate the list of job IDs
+          # For example, you can query a data source or use previous workflow outputs.
+          job_ids="job_id1,job_id2,job_id3"  # Replace with your actual list
+          echo "::set-output name=job_ids::${job_ids}"
+
+      - name: Workflow Dispatch
+        id: workflow_dispatch
+        uses: softprops/action-gh-release@v1
+        with:
+          ref: main
+          workflow: Second Workflow
+          inputs: |
+            {
+              "job_ids": {
+                "description": "Select a job ID",
+                "required": true,
+                "type": "choice",
+                "options": "${{ steps.generate_job_ids.outputs.job_ids }}"
+              }
+            }   
+      # - name: Get Job IDs Input
+      #   id: get_job_ids
+      #   run: echo "::set-output name=job_ids::${{ github.event.inputs.job_ids }}"
+      #   shell: bash
+      #   env:
+      #     job_ids: ${{ github.event.inputs.job_ids }}
+
+      # - name: Display Selected Job IDs
+      #   run: |
+      #     selected_job_ids="${{ steps.get_job_ids.outputs.job_ids }}"
+      #     echo "Selected Job IDs: $selected_job_ids"
