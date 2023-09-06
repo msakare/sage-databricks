@@ -5,7 +5,7 @@ on:
     workflows: "Databricks job migration"
     types: completed
     branches:
-      - 'dev_jobs/**'
+      - 'dev_jobs'
 
   workflow_dispatch:
     inputs:
