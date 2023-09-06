@@ -3,8 +3,6 @@ name: SecondWorkflow
 
 
 on:
-  # push:
-  #   branches: dev_jobs
   workflow_dispatch:
     inputs:
       source_env:
