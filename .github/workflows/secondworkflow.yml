@@ -1,6 +1,8 @@
-name: Secondworkflow
+
+name: SecondWorkflow
 
 on:
+
   workflow_dispatch:
     inputs:
       job_ids:
