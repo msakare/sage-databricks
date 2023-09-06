@@ -1,7 +1,7 @@
 
 name: jobprocess
-on:
 
+on:
   workflow_dispatch:
     inputs:
       job_ids:
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-          
+      
       - name: Get Job IDs Input
         id: get_job_ids
         run: echo "::set-output name=job_ids::${{ github.event.inputs.job_ids }}"
