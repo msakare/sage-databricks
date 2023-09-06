@@ -43,9 +43,25 @@ jobs:
           pip install -r requirements.txt
           pip install requests
   
-      - name: Call Databricks API and Publish Artifacts
+      # - name: Call Databricks API and Publish Artifacts
+      #   run: |
+      #     python .github/workflows/apicall.py 
+      - name: Call Databricks API and Extract Job IDs
+        id: job_ids
         run: |
-          python .github/workflows/apicall.py 
+          job_ids=$(python .github/workflows/apicall.py)
+          echo "::set-output name=job_ids::${job_ids}"
+
+      - name: Display Job IDs
+        run: |
+          echo "Available Job IDs:"
+          echo "${{ steps.job_ids.outputs.job_ids }}"  
+
+
+
+
+
+
 
 
       # - name: Publish Response as Artifact
@@ -70,15 +86,15 @@ jobs:
       #     DATABRICKS_API_TOKEN: "dapic100eda776087528cd6a82f7ca84914a"
 
 
-      - name: Create Dropdown
-        id: dropdown
-        run: |
-          job_ids="${{ steps.download.outputs.job_ids }}"
-          echo "::set-output name=dropdown::${job_ids}"
+      # - name: Create Dropdown
+      #   id: dropdown
+      #   run: |
+      #     job_ids="${{ steps.download.outputs.job_ids }}"
+      #     echo "::set-output name=dropdown::${job_ids}"
 
-      - name: Display Dropdown
-        run: |
-          echo "Job IDs: ${{ steps.dropdown.outputs.dropdown }}"
+      # - name: Display Dropdown
+      #   run: |
+      #     echo "Job IDs: ${{ steps.dropdown.outputs.dropdown }}"
 
 
 
