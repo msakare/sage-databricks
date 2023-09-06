@@ -75,7 +75,7 @@ jobs:
       - name: Download Job IDs Artifact
         uses: actions/download-artifact@v2
         with:
-          name: job-ids
+          name: job_ids
 
       - name: Gather User Input
         id: user_input
