@@ -72,6 +72,34 @@ jobs:
           job_ids: ${{ steps.job_ids.outputs.job_ids }}
         shell: bash
 
+      - name: Download Job IDs Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: job-ids
+
+      - name: Gather User Input
+        id: user_input
+        run: |
+          job_ids=$(cat job-ids)
+          echo "Available Job IDs: $job_ids"
+          echo "Please enter the Job ID you want to use:"
+          read selected_job_id
+          echo "::set-output name=selected_job_id::${selected_job_id}"
+        shell: bash
+
+      - name: Trigger Workflow with Selected Job ID
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          workflow: "Run Python Script with Selected Job ID"
+          inputs: |
+            {
+              "selected_job_id": "${{ steps.user_input.outputs.selected_job_id }}"
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+      
+
       - name: Select Job ID
         id: select_job_id
         run: |
