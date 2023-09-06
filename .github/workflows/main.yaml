@@ -1,14 +1,14 @@
 
 name: SecondWorkflow
 
-on:
 
+on:
   workflow_dispatch:
     inputs:
-      job_ids:
-        description: "Select job IDs (comma-separated)"
+      source_env:
+        description: "Select source environment"
         required: true
-        type: string
+        options: ["Dev", "Test", "Prod"]
 
 jobs:
   process_job_ids:
