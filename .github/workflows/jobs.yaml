@@ -18,10 +18,10 @@ on:
         type: choice
         options: ["Dev", "Test", "Prod"]
       job_id:
-        description: "Select a job ID"
-        required: true
-        type: choice
-        options: ${{ steps.job_ids.outputs.job_ids }}
+          description: "Select a job ID"
+          required: true
+          type: choice
+          options: ${{ steps.job_ids.outputs.job_ids }}
         
         
 jobs:
