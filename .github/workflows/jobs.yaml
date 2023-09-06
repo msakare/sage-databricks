@@ -73,9 +73,7 @@ jobs:
         shell: bash
 
       
-      - name: Store Job IDs in File
-        run: |
-          echo "${{ steps.job_ids.outputs.job_ids }}" > $GITHUB_WORKSPACE/job_ids.txt
+
 
 
 
@@ -84,37 +82,7 @@ jobs:
   #   runs-on: ubuntu-latest
 
   #   steps:
-      - name: Download Job IDs File
-        run: |
-          curl -O -J -L "https://github.com/${{ github.repository }}/raw/main/job_ids.txt"
-          cat job_ids.txt
 
-      - name: Gather User Input
-        id: user_input
-        run: |
-          job_ids=$(cat job_ids.txt)
-          echo "Available Job IDs: $job_ids"
-          echo "Please enter the Job ID you want to use:"
-          read selected_job_id
-          echo "::set-output name=selected_job_id::${selected_job_id}"
-        shell: bash
-
-      - name: Set up Git
-        run: |
-          git config --global user.name "monika"
-          git config --global user.email "monika.sakare@capgemini.com"
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-
-      - name: Commit Selected Job ID
-        run: |
-          selected_job_id="${{ steps.user_input.outputs.selected_job_id }}"
-          echo "Selected Job ID: $selected_job_id" > selected_job_id.txt
-          git add selected_job_id.txt
-          git commit -m "Add selected Job ID"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
 
       # - name: Select Job ID
