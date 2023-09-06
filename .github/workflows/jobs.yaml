@@ -78,11 +78,11 @@ jobs:
           echo "${{ steps.job_ids.outputs.job_ids }}" > job_ids.txt
         working-directory: ${{ github.workspace }}
 
-  select_and_run_job:
-    needs: databricks_migration
-    runs-on: ubuntu-latest
+  # select_and_run_job:
+  #   needs: databricks_migration
+  #   runs-on: ubuntu-latest
 
-    steps:
+  #   steps:
       - name: Download Job IDs File
         run: |
           curl -O -J -L "https://github.com/${{ github.repository }}/raw/main/job_ids.txt"
