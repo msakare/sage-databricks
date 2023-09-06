@@ -78,8 +78,11 @@ jobs:
       - name: Trigger Second Workflow
         run: |
           selected_job_id="${{ steps.select_job_id.outputs.selected_job_id }}"
-          export GH_TOKEN="${{ secrets.PAT_TOKEN }}"
-          gh workflow run "main.yaml" --ref dev_jobs -F job_ids="${selected_job_id}"
+          echo "Selected Job ID: $selected_job_id"
+          echo "Triggering second workflow..."
+          export GH_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          gh workflow run main.yaml --ref main -F job_ids="${selected_job_id}"
+
 
 
 
