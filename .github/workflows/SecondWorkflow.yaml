@@ -18,12 +18,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Trigger Other Workflow
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          repository: msakare/sage-databricks  
-          workflow: Databricks job migration
-          ref: dev_jobs  
           
       - name: Get Job IDs Input
         id: get_job_ids
