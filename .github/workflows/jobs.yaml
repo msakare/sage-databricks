@@ -75,8 +75,8 @@ jobs:
       
       - name: Store Job IDs in File
         run: |
-          echo "${{ steps.job_ids.outputs.job_ids }}" > job_ids.txt
-          working-directory: ${{ github.workspace }}
+          echo "${{ steps.job_ids.outputs.job_ids }}" > $GITHUB_WORKSPACE/job_ids.txt
+
 
 
   # select_and_run_job:
@@ -84,14 +84,15 @@ jobs:
   #   runs-on: ubuntu-latest
 
   #   steps:
-      - name: Download Job IDs Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: job-ids
+      - name: Download Job IDs File
+        run: |
+          curl -O -J -L "https://github.com/${{ github.repository }}/raw/main/job_ids.txt"
+          cat job_ids.txt
+
       - name: Gather User Input
         id: user_input
         run: |
-          job_ids=$(cat job-ids)
+          job_ids=$(cat job_ids.txt)
           echo "Available Job IDs: $job_ids"
           echo "Please enter the Job ID you want to use:"
           read selected_job_id
