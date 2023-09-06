@@ -32,10 +32,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install GH CLI
-        uses: dev-hanz-ops/install-gh-cli-action
+      - name: setup-ghcli
+        # You may pin to the exact commit or the version.
+        # uses: twildber/setup-ghcli@89d4a02bf60883b0b609bba486acafabd82066bf
+        uses: twildber/setup-ghcli@v0.8.0
         with:
-          gh-cli-version: 2.14.2 
+          # The version to use. Example: 2.28.0
+          version: 2.28.0
         
       - name: Setup Python
         uses: actions/setup-python@v2
