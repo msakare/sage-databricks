@@ -1,4 +1,5 @@
-name: SecondWorkflow
+
+name: Secondworkflow
 
 on:
 
@@ -26,5 +27,3 @@ jobs:
         run: |
           selected_job_ids="${{ steps.get_job_ids.outputs.job_ids }}"
           echo "Selected Job IDs: $selected_job_ids"
-
-
