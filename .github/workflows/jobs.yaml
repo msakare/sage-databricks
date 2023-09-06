@@ -87,16 +87,32 @@ jobs:
           echo "::set-output name=selected_job_id::${selected_job_id}"
         shell: bash
 
-      - name: Trigger Workflow with Selected Job ID
-        uses: peter-evans/workflow-dispatch@v1
-        with:
-          workflow: "Run Python Script with Selected Job ID"
-          inputs: |
-            {
-              "selected_job_id": "${{ steps.user_input.outputs.selected_job_id }}"
-            }
+      - name: Set up Git
+        run: |
+          git config --global user.name "Monika"
+          git config --global user.email "monika.sakare@capgemini.com"
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+      - name: Commit Selected Job ID
+        run: |
+          selected_job_id="${{ steps.user_input.outputs.selected_job_id }}"
+          echo "Selected Job ID: $selected_job_id" > selected_job_id.txt
+          git add selected_job_id.txt
+          git commit -m "Add selected Job ID"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+      - name: Trigger Workflow with Selected Job ID
+        run: |
+          curl -X POST -u "GITHUB_USERNAME:${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/REPO_OWNER/REPO_NAME/actions/workflows/WORKFLOW_NAME/dispatches" \
+            -d '{"ref": "BRANCH", "inputs": {"selected_job_id": "'$selected_job_id'"}}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
       
 
