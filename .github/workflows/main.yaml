@@ -1,13 +1,13 @@
 
-name: SecondWorkflow
+# name: SecondWorkflow
 
 
-on:
-  workflow_run:
-    workflows: ["Databricks job migration"]
-    types: [completed]
-    branches:
-      - 'dev_jobs/**'
+# on:
+#   workflow_run:
+#     workflows: ["Databricks job migration"]
+#     types: [completed]
+#     branches:
+#       - 'dev_jobs/**'
       
   # workflow_dispatch:
   #   inputs:
@@ -16,34 +16,51 @@ on:
   #       required: true
   #       type: choice
 
+name: Select and Run Job
+
+on:
+  workflow_run:
+    workflows: ["Databricks job migration"]
+    types:
+      - completed
+
 jobs:
-  process_job_ids:
+  select_and_run_job:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Generate List of Job IDs
-        id: generate_job_ids
-        run: |
-          # Replace this with your logic to generate the list of job IDs
-          # For example, you can query a data source or use previous workflow outputs.
-          job_ids="job_id1,job_id2,job_id3"  # Replace with your actual list
-          echo "::set-output name=job_ids::${job_ids}"
-
-      - name: Workflow Dispatch
-        id: workflow_dispatch
-        uses: softprops/action-gh-release@v1
+      - name: Download Job IDs Artifact
+        uses: actions/download-artifact@v2
         with:
-          ref: main
-          workflow: Second Workflow
-          inputs: |
-            {
-              "job_ids": {
-                "description": "Select a job ID",
-                "required": true,
-                "type": "choice",
-                "options": "${{ steps.generate_job_ids.outputs.job_ids }}"
-              }
-            }   
+          name: job-ids
+
+      - name: Gather User Input
+        id: user_input
+        run: |
+          job_ids=$(cat job-ids)
+          echo "Available Job IDs: $job_ids"
+          echo "Please enter the Job ID you want to use:"
+          read selected_job_id
+          echo "::set-output name=selected_job_id::${selected_job_id}"
+        shell: bash
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "monika"
+          git config --global user.email "monika.sakare@capgemini.com"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+      - name: Commit Selected Job ID
+        run: |
+          selected_job_id="${{ steps.user_input.outputs.selected_job_id }}"
+          echo "Selected Job ID: $selected_job_id" > selected_job_id.txt
+          git add selected_job_id.txt
+          git commit -m "Add selected Job ID"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
       # - name: Get Job IDs Input
       #   id: get_job_ids
       #   run: echo "::set-output name=job_ids::${{ github.event.inputs.job_ids }}"
