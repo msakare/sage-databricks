@@ -3,12 +3,18 @@ name: SecondWorkflow
 
 
 on:
+  workflow_run:
+    workflows: ["Databricks job migration"]
+    types: [completed]
+    branches:
+      - 'dev_jobs/**'
+      
   workflow_dispatch:
     inputs:
-      source_env:
-        description: "Select source environment"
+      job_ids:
+        description: "Select job IDs (comma-separated)"
         required: true
-        options: ["Dev", "Test", "Prod"]
+        type: string
 
 jobs:
   process_job_ids:
