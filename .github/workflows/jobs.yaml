@@ -75,15 +75,13 @@ jobs:
       - name: Fetch Job Details
         id: fetch_job_details
         run: |
-          databricks_api_token="dapic100eda776087528cd6a82f7ca84914a"
+          databricks_api_token="${{ secrets.DATABRICKS_API_TOKEN }}"
           job_id="${{ steps.job_ids.outputs.job_ids }}"
           url="https://sagerx-aws-devtest-comm.cloud.databricks.com/api/2.1/jobs/get?job_id=${job_id}"
-          payload={}
-          headers = {
-              'Authorization': f'Bearer {databricks_api_token}'
-          }
-          response = requests.request("GET", url, headers=headers, data=payload)
-          echo "::set-output name=job_details::${response.text}"
+          payload=""
+          response=$(curl -X GET -H "Authorization: Bearer $databricks_api_token" -d "$payload" "$url")
+          echo "::set-output name=job_details::${response}"
+
 
       - name: Display Job Details
         run: |
