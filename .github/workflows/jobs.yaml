@@ -72,11 +72,11 @@ jobs:
           job_ids: ${{ steps.job_ids.outputs.job_ids }}
         shell: bash
 
-      - name: Call Databricks API and Extract Job IDs
+      - name: fetch job details
         id: job_details
         run: |
           job_ids=$(python .github/workflows/fetch_job_details.py)
-          echo "::set-output name=job_ids::${job_details}"
+          echo "::set-output name=job_details::${job_details}"
 
 
       # - name: Trigger Slash Command
