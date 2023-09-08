@@ -72,6 +72,15 @@ jobs:
           job_ids: ${{ steps.job_ids.outputs.job_ids }}
         shell: bash
 
+
+      - name: Trigger Slash Command
+        uses: peter-evans/slash-command-dispatch@v2
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          issue-type: select-job
+          job_ids: ${{ steps.job_ids.outputs.job_ids }}  
+
+
       
 
 
