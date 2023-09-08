@@ -75,7 +75,7 @@ jobs:
       - name: Fetch Job Details
         id: fetch_job_details
         run: |
-              python fetch_job_details.py
+              python .github/workflows/fetch_job_details.py
               continue-on-error: true
 
 
