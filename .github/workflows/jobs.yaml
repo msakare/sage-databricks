@@ -76,7 +76,7 @@ jobs:
         id: job_details
         run: |
           job_ids=$(python .github/workflows/fetch_job_details.py)
-          echo "::set-output name=job_details::${job_details}"
+          echo "::set-output name=job_details::${{ steps.job_ids.outputs.job_details }}"
 
 
       # - name: Trigger Slash Command
