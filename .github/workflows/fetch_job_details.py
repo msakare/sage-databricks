@@ -7,7 +7,6 @@ payload={}
 headers = {
     'Authorization': f'Bearer {databricks_api_token}'
 }
-
 response = requests.request("GET", url, headers=headers, data=payload)
 
 print(response.text)
