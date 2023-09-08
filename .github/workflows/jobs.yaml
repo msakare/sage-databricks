@@ -76,8 +76,8 @@ jobs:
         id: fetch_job_details
         run: |
           databricks_api_token="dapic100eda776087528cd6a82f7ca84914a"
-          job_id="${{ steps.job_ids.outputs.job_ids }}"
-          url="https://sagerx-aws-devtest-comm.cloud.databricks.com/api/2.1/jobs/get?job_id=${job_id}"
+          # job_id="${{ steps.job_ids.outputs.job_ids }}"
+          url="https://sagerx-aws-devtest-comm.cloud.databricks.com/api/2.1/jobs/get?job_id=496296034538647 "
           
           response=$(curl -X GET -H "Authorization: Bearer $databricks_api_token" "$url")
           
