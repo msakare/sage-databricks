@@ -75,7 +75,8 @@ jobs:
       - name: Fetch Job Details
         id: fetch_job_details
         run: |
-              python .github/workflows/fetch_job_details.py
+            job_details=$(python fetch_job_details.py)
+            echo "::set-output name=job_details::${job_details}"
 
 
       - name: Display Job Details
