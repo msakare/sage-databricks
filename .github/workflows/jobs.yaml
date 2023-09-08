@@ -79,9 +79,8 @@ jobs:
           job_id="${{ steps.job_ids.outputs.job_ids }}"
           url="url="https://sagerx-aws-devtest-comm.cloud.databricks.com/api/2.1/jobs/get?job_id=${job_id}"
           payload=""
-          response=$(curl -X GET -H "Authorization: Bearer $databricks_api_token" -d "$payload" "$url")
+          response=$(curl -X GET -H "Authorization: Bearer $databricks_api_token" "$url")
           echo "::set-output name=job_details::${response}"
-
 
 
 
