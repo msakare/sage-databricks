@@ -75,20 +75,8 @@ jobs:
       - name: Fetch Job Details
         id: fetch_job_details
         run: |
-              databricks_api_token="dapic100eda776087528cd6a82f7ca84914a"
-              url="https://sagerx-aws-devtest-comm.cloud.databricks.com/api/2.1/jobs/get?job_id= 496296034538647"
-              
-              response=$(curl -X GET -H "Authorization: Bearer $databricks_api_token" "$url")
-              
-              if [ $? -eq 0 ]; then
-                echo "::set-output name=job_details::${response}"
-              else
-                echo "Error: Failed to fetch job details."
-                exit 1
-              fi
-
-
-
+              python fetch_job_details.py
+              continue-on-error: true
 
 
       - name: Display Job Details
