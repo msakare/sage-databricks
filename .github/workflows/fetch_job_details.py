@@ -10,7 +10,6 @@ headers = {
 }
 response = requests.request("GET", url, headers=headers, data=payload)
 
-print("Response status code:", response.status_code)
 print("Response text:", response.text)
 
 
