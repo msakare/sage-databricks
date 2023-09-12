@@ -8,7 +8,7 @@ source_environment = os.getenv("SOURCE")
 databricks_token = os.getenv("DATABRICKS_TOKEN")
 
 # Databricks API URL for Get Jobs List
-url = f"https://aws-{source_environment.lower()}test-comm.cloud.databricks.com/api/2.1/jobs/list"
+url = f"https://sagerx-aws-devtest-comm.cloud.databricks.com/api/2.1/jobs/list""
 
 headers = {
     'Authorization': f'Bearer {databricks_token}'
