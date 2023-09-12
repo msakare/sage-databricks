@@ -65,6 +65,21 @@ jobs:
           job_ids=$(python .github/workflows/apicall.py)
           echo "::set-output name=job_ids::${job_ids}"
 
+      - name: Get Databricks Job List
+
+        run: |
+          # Use the selected source environment and Databricks API token to call the Get Jobs List API
+          # Store the job list in a file or environment variable for later use
+          python get_job_list.py | python extract_job_ids.py
+      
+          # Allow the user to select a job ID (you can use tools like 'fzf' for interactive selection)
+          selected_job_id=$(echo "$job_ids" | fzf) # Replace with your preferred selection method
+      
+          # Store the selected job ID as a GitHub Actions environment variable for later steps
+          echo "SELECTED_JOB_ID=$selected_job_id" >> $GITHUB_ENV
+
+
+
       - name: list Job ID
         id: list_job_id
         run: echo "Selected job ID is ${{ steps.job_ids.outputs.job_ids }}"
