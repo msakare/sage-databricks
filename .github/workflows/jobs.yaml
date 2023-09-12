@@ -73,7 +73,7 @@ jobs:
         run: |
           # Use the selected source environment and Databricks API token to call the Get Jobs List API
           # Store the job list in a file or environment variable for later use
-          python .github/workflows/get_job_list.py | .github/workflows/python extract_job_ids.py
+          python .github/workflows/get_job_list.py | python .github/workflows/extract_job_ids.py
       
           # Install fzf
           sudo apt-get update && sudo apt-get install -y fzf
