@@ -75,11 +75,8 @@ jobs:
           # Store the job list in a file or environment variable for later use
           python .github/workflows/get_job_list.py | python .github/workflows/extract_job_ids.py
       
-          # Install fzf
-          sudo apt-get update && sudo apt-get install -y fzf
-      
           # Allow the user to select a job ID (using fzf)
-          selected_job_id=$(echo "$job_ids" | fzf) # Replace with your preferred selection method
+          selected_job_id=$(echo "$job_ids" | head -n 1)
       
           # Store the selected job ID as a GitHub Actions environment variable for later steps
           echo "SELECTED_JOB_ID=$selected_job_id" >> $GITHUB_ENV
