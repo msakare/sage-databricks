@@ -5,7 +5,7 @@ import os
 source_environment = os.getenv("SOURCE")
 
 # Replace with your Databricks API token stored as a GitHub secret
-databricks_token = os.getenv("DATABRICKS_TOKEN")
+databricks_token = "dapic100eda776087528cd6a82f7ca84914a"
 
 # Databricks API URL for Get Jobs List
 url = f"https://sagerx-aws-devtest-comm.cloud.databricks.com/api/2.1/jobs/list""
