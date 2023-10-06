@@ -113,7 +113,6 @@ jobs:
         shell: bash
 
 #2
-
     - name: Fetch Job Details
       id: fetch_job_details
       run: |
