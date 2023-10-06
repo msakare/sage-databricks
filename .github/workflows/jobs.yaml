@@ -116,7 +116,7 @@ jobs:
     - name: Fetch Job Details
       id: fetch_job_details
       run: |
-        job_details=$(python .github/workflows/fetch_job_details.py $SELECTED_JOB_ID)
+        job_details=$(python .github/workflows/apicall4th.py $SELECTED_JOB_ID)
         echo "::set-output name=job_details::${job_details}"
 
       # - name: Trigger Slash Command
