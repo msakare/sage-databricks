@@ -105,21 +105,65 @@ jobs:
           echo "$job_details"
 #1
 
-      - name: Select Databricks Job
+name: Databricks job migration
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_env:
+        type: choice
+        description: "Select source environment"
+        required: true
+        options:
+        - Dev
+        - Test
+        - Prod
+      target_env:
+        description: "Select target environment"
+        required: true
+        type: choice
+        options: ["Dev", "Test", "Prod"]
+      job_id:
+        description: "Select a job ID"
+        required: true
+        type: text  # Allow the user to input the job ID manually
+
+jobs:
+  databricks_migration:
+    runs-on: ubuntu-latest
+
+    env:
+      SOURCE_ENV: ${{ github.event.inputs.source_env }}
+      TARGET_ENV: ${{ github.event.inputs.target_env }}
+      JOB_ID: ${{ github.event.inputs.job_id }}
+      DATABRICKS_API_TOKEN: ${{secrets.DATABRICKS_API_TOKEN}}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
         run: |
-           selected_job_id=$(echo "$job_ids" | fzf)
-            echo "SELECTED_JOB_ID=$selected_job_id" >> $GITHUB_ENV
-        env:
-            job_ids: ${{ steps.job_ids.outputs.job_ids }}
-        shell: bash
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install requests
 
-#2
+      - name: Fetch Job Details
+        id: fetch_job_details
+        run: |
+          # Call the Python script to fetch job details based on the provided job ID
+          job_details=$(python .github/workflows/fetch_job_details.py $JOB_ID)
+          echo "::set-output name=job_details::${job_details}"
 
-    - name: Fetch Job Details
-      id: fetch_job_details
-      run: |
-        job_details=$(python .github/workflows/apicall4th.py $SELECTED_JOB_ID)
-        echo "::set-output name=job_details::${job_details}"
+      - name: Display Job Details
+        run: |
+          job_details="${{ steps.fetch_job_details.outputs.job_details }}"
+          echo "Job ID Details:"
+          echo "$job_details"
 
       # - name: Trigger Slash Command
       #   uses: peter-evans/slash-command-dispatch@v2
