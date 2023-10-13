@@ -103,7 +103,6 @@ jobs:
           job_details="${{ steps.fetch_job_details.outputs.job_details }}"
           echo "Job ID Details:"
           echo "$job_details"
-#1
 
 name: Databricks job migration
 
